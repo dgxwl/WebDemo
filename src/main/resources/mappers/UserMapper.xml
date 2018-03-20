@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.abc.def.mapper.UserMapper">
+
+	<!-- 用户注册 -->
+	<!-- Integer register(User user) -->
+	<!-- 当前方法需要执行INSERT操作,所以使用insert节点进行配置 -->
+	<!-- 每个节点的id都表示对应的方法名称 -->
+	<!-- parameterType表示参数类型,如果参数是基本类型或String可以不配置该属性 -->
+	<!-- 所有增删改操作默认返回受影响的行数,但是不配置返回值类型 -->
+	<!-- 如果INSERT时需要得到新数据的ID,需要配置useGeneratedKeys为true, 并配置keyProperty,这个属性值是数据表中的字段名 -->
+	<insert id="register" parameterType="cn.abc.def.entity.User"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO user (username,password,phone) VALUES
+		(#{username},#{password},#{phone})
+	</insert>
+	
+	<!-- 根据用户名查询用户信息 -->
+	<!-- User findUserByUsername(String username) -->
+	<!-- 所有select节点都必须配置返回值类型,即使返回的是基本类型或String也必须声明 -->
+	<select id="findUserByUsername" resultType="cn.abc.def.entity.User">
+		SELECT 
+			id, username, password, phone
+		FROM 
+			user
+		WHERE 
+			username=#{username}
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
