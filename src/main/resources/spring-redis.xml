@@ -26,7 +26,7 @@
 		 <!-- 连接Redis时候自动管理Redis连接池 -->
 		 <property name="usePool" value="true"/>
 		 <property name="hostName" value="127.0.0.1"></property>
-<!-- 		 <property name="password" value="123456" /> -->
+<!-- 		 <property name="password" value=1234 /> -->
 	</bean>
     
 	<!-- redis template definition -->
