@@ -42,6 +42,7 @@
 		<property name="maxUploadSize" value="104857600" />
 	</bean>
 	
+	<bean class="cn.abc.def.util.SpringUtil"/>
 </beans>
 
 

@@ -12,10 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ScheduleTask {
 	
-	public ScheduleTask(){
-		System.out.println("init");
-	}
-
 	/**
 	 * 在方法上加@@Scheduled注解即可定时执行; 该方法返回值应为void
 	 * cron的表达式: 秒 分 时 日 月 周.(年加上为什么报错)
