@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+	<jmxConfigurator />
+	
+	<!-- 输出到控制台 -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoder 默认配置为PatternLayoutEncoder -->
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %L [%thread] %-5level %logger{36} - %msg %ex%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 滚动文件日志策略，每天生成一个日志文件，保存30天的日志文件 -->
+	<appender name="errorfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>C:/appName/logs/appName-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %L [%thread] %-5level %logger{36} - %msg %ex%n</pattern>
+		</encoder>
+	</appender>
+<!-- 	<appender name="debugfile" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+<!-- 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
+<!-- 			<fileNamePattern>C:/appName/logs/appName-debug.%d{yyyy-MM-dd}.log </fileNamePattern> -->
+<!-- 			<maxHistory>30</maxHistory> -->
+<!-- 		</rollingPolicy> -->
+<!-- 		<encoder> -->
+<!-- 			<pattern>%d{HH:mm:ss.SSS} %L [%thread] %-5level %logger{36} - %msg %ex%n</pattern> -->
+<!-- 		</encoder> -->
+<!-- 	</appender> -->
+<!-- 	<appender name="infofile" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+<!-- 		<rollingPolicy -->
+<!-- 			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
+<!-- 			<fileNamePattern>C:/appName/logs/appName-info.%d{yyyy-MM-dd}.log</fileNamePattern> -->
+<!-- 			<maxHistory>30</maxHistory> -->
+<!-- 		</rollingPolicy> -->
+<!-- 		<encoder> -->
+<!-- 			<pattern>%d{HH:mm:ss.SSS} %L [%thread] %-5level %logger{36} - %msg %ex%n</pattern> -->
+<!-- 		</encoder> -->
+<!-- 	</appender> -->
+	
+<!-- 	<logger name="cn.abc"> -->
+<!-- 		<level value="DEBUG" /> -->
+<!-- 		<appender-ref ref="debugfile" /> -->
+<!-- 	</logger> -->
+	<logger name="cn.abc">
+		<level value="INFO" />
+		<appender-ref ref="console" />
+	</logger>
+	<root>
+		<level value="ERROR" />
+		<appender-ref ref="errorfile" />
+	</root>
+</configuration>

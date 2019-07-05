@@ -76,13 +76,21 @@
 			<artifactId>spring-data-redis</artifactId>
 			<version>1.8.14.RELEASE</version>
 		</dependency>
-		<!-- 解决jar包冲突报错 -->
+		
+		<!-- log日志 -->
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.6.6</version>
-			<scope>provided</scope>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
 		</dependency>
+		
+		<!-- 解决jar包冲突报错. 不过加了上面这个logback后好了 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.slf4j</groupId> -->
+<!-- 			<artifactId>slf4j-api</artifactId> -->
+<!-- 			<version>1.6.6</version> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
 
 	</dependencies>
 
