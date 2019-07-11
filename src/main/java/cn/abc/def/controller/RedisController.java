@@ -6,6 +6,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.abc.def.util.RedisUtil;
 
+/**
+ * 使用RedisUtil工具类操作redis
+ * 
+ * @author Administrator
+ *
+ */
 @RestController
 public class RedisController {
 

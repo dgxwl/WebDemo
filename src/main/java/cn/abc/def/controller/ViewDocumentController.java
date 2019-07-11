@@ -20,6 +20,7 @@ public class ViewDocumentController {
 	 */
 	@RequestMapping("/viewOffice")
 	public String viewOffice(ModelMap modelMap, String url) {
+		modelMap.addAttribute("url", url);
 		return "viewOffice";
 	}
 	
