@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class UploadFileController {
 
-	@RequestMapping(value = "/upload", produces = "text/html; charset=UTF-8")
+	@RequestMapping(value = "/upload")
 	@ResponseBody
 	public String upload(MultipartFile data, HttpSession session) {
 		String realPath = session.getServletContext().getRealPath("/upload");
