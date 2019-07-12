@@ -38,11 +38,15 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
+	<!-- 静态资源交给web服务器处理,避免被dispatcherServlet截获 -->
+	<mvc:default-servlet-handler/>
+	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="104857600" />
 	</bean>
 	
 	<bean class="cn.abc.def.util.SpringUtil"/>
+	
 </beans>
 
 
