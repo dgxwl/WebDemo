@@ -19,6 +19,9 @@ public class LogController {
 		logger.warn("I'm warn");
 		logger.error("I'm error");
 		
+		//格式化输出
+		logger.error("第{}个坑, 第{}个坑, 第{}个坑", 1, "贰", "III");
+		
 		return "ok";
 	}
 }
