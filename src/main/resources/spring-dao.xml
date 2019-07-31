@@ -27,7 +27,7 @@
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
 	<!-- 读取db.properties -->
-	<util:properties id="dbConfig" location="classpath:db.properties" />
+	<util:properties id="dbConfig" location="classpath:application.properties" />
 
 	<!-- 配置BasicDataSource -->
 	<!-- 注入属性值时,name的值是BasicDataSource类中声明的属性名称 -->

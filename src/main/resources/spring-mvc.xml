@@ -32,6 +32,9 @@
 	<!-- 扫描controller包 -->
 	<context:component-scan base-package="cn.abc.def.component" />
 	
+	<!-- 加了这个才能用@Value..不然直接拿到${xxx} -->
+	<context:property-placeholder location="classpath:application.properties" />
+	
 	<!-- 配置ViewResolver -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/web/" />
