@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 演示生成条形码; 通过前端引入JsBarCode.js实现
@@ -21,5 +22,11 @@ public class BarCodeController {
 		}
 		modelMap.addAttribute("code", code);
 		return "barcode";
+	}
+	
+	@RequestMapping("/vue")
+	@ResponseBody
+	public String vue() {
+		return "hello";
 	}
 }
