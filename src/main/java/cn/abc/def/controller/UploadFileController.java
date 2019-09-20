@@ -60,6 +60,17 @@ public class UploadFileController {
 		return "testupload2";
 	}
 	
+	@RequestMapping("/batchupload")
+	public String batchupload() {
+		return "batchupload";
+	}
+	
+	/**
+	 * 批量上传
+	 * @param img 数组
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "/batch_upload")
 	@ResponseBody
 	public String batchUpload(MultipartFile[] img, HttpSession session) {
