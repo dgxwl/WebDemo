@@ -54,4 +54,30 @@ public class UploadFileController {
 	public String upload() {
 		return "testupload";
 	}
+	
+	@RequestMapping("/testupload2")
+	public String upload2() {
+		return "testupload2";
+	}
+	
+	@RequestMapping(value = "/batch_upload")
+	@ResponseBody
+	public String batchUpload(MultipartFile[] img, HttpSession session) {
+		String realPath = session.getServletContext().getRealPath("/upload");
+		for (MultipartFile data : img) {
+			try (OutputStream out = new FileOutputStream(realPath + "/" + data.getOriginalFilename());
+					BufferedOutputStream bos = new BufferedOutputStream(out)) {
+				InputStream in = data.getInputStream();
+				byte[] buf = new byte[4096];
+				int len = -1;
+				while ((len = in.read(buf)) != -1) {
+					bos.write(buf, 0, len);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return "上传成功";
+	}
 }

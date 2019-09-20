@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>上传文件功能</title>
+<title>上传文件功能 - 原生js实现</title>
 </head>
 <body>
 																		<!-- accept限定可上传的文件类型 -->
