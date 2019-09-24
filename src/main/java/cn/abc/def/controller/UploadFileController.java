@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -67,28 +68,35 @@ public class UploadFileController {
 	
 	/**
 	 * 批量上传
+	 * 当没有传任何文件时,公司的项目会报NoSuchMethodException, 
+	 * 需要加注解RequestParam(required = false)解决, 这个项目却不会, 搞不懂...
 	 * @param img 数组
 	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/batch_upload")
 	@ResponseBody
-	public String batchUpload(MultipartFile[] img, HttpSession session) {
+	public String batchUpload(@RequestParam(required = false) MultipartFile[] img, HttpSession session) {
 		String realPath = session.getServletContext().getRealPath("/upload");
-		for (MultipartFile data : img) {
-			try (OutputStream out = new FileOutputStream(realPath + "/" + data.getOriginalFilename());
-					BufferedOutputStream bos = new BufferedOutputStream(out)) {
-				InputStream in = data.getInputStream();
-				byte[] buf = new byte[4096];
-				int len = -1;
-				while ((len = in.read(buf)) != -1) {
-					bos.write(buf, 0, len);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 		
-		return "上传成功";
+		if (img != null && img.length > 0) {
+			for (MultipartFile data : img) {
+				try (OutputStream out = new FileOutputStream(realPath + "/" + data.getOriginalFilename());
+						BufferedOutputStream bos = new BufferedOutputStream(out)) {
+					InputStream in = data.getInputStream();
+					byte[] buf = new byte[4096];
+					int len = -1;
+					while ((len = in.read(buf)) != -1) {
+						bos.write(buf, 0, len);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			return "上传成功";
+		} else {
+			return "没有上传文件";
+		}
 	}
 }
