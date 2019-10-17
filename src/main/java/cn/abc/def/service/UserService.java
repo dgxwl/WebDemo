@@ -1,4 +1,6 @@
 package cn.abc.def.service;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -19,5 +21,10 @@ public class UserService implements IUserService {
 		} else {
 			throw new RuntimeException("注册失败：该用户已存在");
 		}
+	}
+	
+	@Override
+	public List<User> getAllPhone() {
+		return userMapper.getAllPhone();
 	}
 }

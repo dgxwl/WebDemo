@@ -29,6 +29,11 @@
 		WHERE 
 			username=#{username}
 	</select>
+	
+	<!-- 用实体类接收返回字段 -->
+	<select id="getAllPhone" resultType="cn.abc.def.entity.User">
+		SELECT phone FROM user
+	</select>
 
 </mapper>
 
