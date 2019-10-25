@@ -20,6 +20,6 @@ public class ScheduleTask {
 	 */
 	@Scheduled(cron = "0,20,40 * * * * ?")
 	public void myScheduleTask() {
-		System.out.println("test scheduled");
+//		System.out.println("test scheduled");  //一直输出有点烦...注释掉了
 	}
 }
