@@ -20,6 +20,8 @@
 		let file = document.querySelector("#filePicker").files[0];
 	    let uploadData = new FormData();
 		uploadData.append('data', file);
+		uploadData.append('otherParam', 'ok');
+		uploadData.append('ids', ['id1', 'id2', 'id3']);
 		
 	    $.ajax({
 			url: '${pageContext.request.contextPath}/upload',

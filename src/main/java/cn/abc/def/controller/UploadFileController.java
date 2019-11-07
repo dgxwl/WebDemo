@@ -5,11 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,9 +34,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class UploadFileController {
 
-	@RequestMapping(value = "/upload")
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
-	public String upload(MultipartFile data, HttpSession session) {
+	public String upload(MultipartFile data, String otherParam, String[] ids, HttpSession session) {
+		System.out.println("跟文件一起接收到的普通参数: " + otherParam);
+		System.out.println("跟文件一起接收到的数组参数: " + Arrays.toString(ids));
 		String realPath = session.getServletContext().getRealPath("/upload");
 		try (OutputStream out = new FileOutputStream(realPath + "/" + data.getOriginalFilename());
 				BufferedOutputStream bos = new BufferedOutputStream(out)) {
