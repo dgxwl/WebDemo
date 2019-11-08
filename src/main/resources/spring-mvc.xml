@@ -23,13 +23,16 @@
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
 	
 	<!-- 注解驱动 -->
-	<mvc:annotation-driven />
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			 <bean class="cn.abc.def.converter.UTF8StringHttpMessageConverter" />
+		</mvc:message-converters>
+	</mvc:annotation-driven>
 	<!-- 定时器所需注解驱动 -->
 	<task:annotation-driven/>
 	
-	<!-- 配置组件扫描，扫描controller包 -->
+	<!-- 配置组件扫描包 -->
 	<context:component-scan base-package="cn.abc.def.controller" />
-	<!-- 扫描controller包 -->
 	<context:component-scan base-package="cn.abc.def.component" />
 	
 	<!-- 加了这个才能用@Value..不然直接拿到${xxx} -->
@@ -49,7 +52,7 @@
 	</bean>
 	
 	<bean class="cn.abc.def.util.SpringUtil"/>
-	
+
 </beans>
 
 
