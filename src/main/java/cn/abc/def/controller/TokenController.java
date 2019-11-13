@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.abc.def.util.TokenTool;
+import cn.abc.def.util.TokenUtil;
 
 /**
  * token机制
@@ -28,7 +28,7 @@ public class TokenController {
 		//Verify username and password
 		//...
 		
-		String token = TokenTool.createToken(username);
+		String token = TokenUtil.createToken(username);
 		return "{\"token\": \"" + token + "\"}";
 	}
 	
@@ -40,6 +40,6 @@ public class TokenController {
 	@RequestMapping("/check_token")
 	@ResponseBody
 	public String checkToken(HttpServletRequest request) {
-		return TokenTool.checkToken(request) + "";
+		return TokenUtil.checkToken(request) + "";
 	}
 }
