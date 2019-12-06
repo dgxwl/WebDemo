@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.abc.def.mapper.TestMapper">
+
+	<insert id="addId">
+		INSERT INTO t_test_lock (id) VALUES (#{id})
+	</insert>
+	
+	<insert id="addIdInB">
+		INSERT INTO t_test_lock_b (id) VALUES (#{id})
+	</insert>
+
+	<select id="countId" resultType="java.lang.Integer">
+		SELECT count(*) FROM t_test_lock WHERE id=#{id}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
