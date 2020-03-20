@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.abc.def.mapper.OrderMapper">
+
+	<resultMap type="cn.abc.def.entity.Order" id="order_mapping">
+		<result column="order_no" property="orderNo" javaType="java.lang.String" />
+		<result column="commodity_id" property="commodityId" javaType="java.lang.String" />
+		<result column="pay_type" property="payType" javaType="java.lang.Integer" />
+		<result column="flow_id" property="flowId" javaType="java.lang.String" />
+		<result column="pay_date" property="payDate" javaType="java.util.Date" />
+		<result column="created_date" property="createdDate" javaType="java.util.Date" />
+		<result column="created_by" property="createdBy" javaType="java.lang.String" />
+	</resultMap>
+
+	<insert id="add" parameterType="cn.abc.def.entity.Order">
+		INSERT INTO t_order (
+			order_no, 
+			commodity_id, 
+			amount, 
+			pay_type, 
+			status, 
+			flow_no,
+			pay_date,
+			created_date, 
+			created_by
+		) VALUES (
+			#{orderNo}, 
+			#{commodityId}, 
+			#{amount}, 
+			#{payType}, 
+			#{status}, 
+			#{flowNo},
+			#{payDate},
+			#{createdDate}, 
+			#{created_by}
+		)
+	</insert>
+	
+	<select id="getByOrderNo" resultType="cn.abc.def.entity.Order">
+		SELECT *
+		FROM t_order
+		WHERE order_no = #{orderNo}
+	</select>
+	
+	<update id="update" parameterType="cn.abc.def.entity.Order">
+		UPDATE t_order
+		<set>
+			<if test="amount != null">
+				amount = #{amount},
+			</if>
+			<if test="payType != null">
+				pay_type = #{payType},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="flowId != null">
+				flow_id = #{flowId},
+			</if>
+			<if test="payDate != null">
+				pay_date = #{payDate}
+			</if>
+		</set>
+		WHERE order_no = #{orderNo}
+	</update>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

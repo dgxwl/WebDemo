@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import cn.abc.def.util.Date2MillisSerializer;
+import cn.abc.def.domain.Date2MillisSerializer;
 
 public class JsonCusUser {
 

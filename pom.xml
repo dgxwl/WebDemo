@@ -113,6 +113,19 @@
 		    <artifactId>activemq-pool</artifactId>
 		    <version>${activemq.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.10</version>
+		</dependency>
+		
+		<!-- 支付宝SDK -->
+		<dependency>
+		    <groupId>com.alipay.sdk</groupId>
+		    <artifactId>alipay-sdk-java</artifactId>
+		    <version>4.9.71.ALL</version>
+		</dependency>
 
 	</dependencies>
 
