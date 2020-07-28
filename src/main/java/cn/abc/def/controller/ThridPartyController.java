@@ -1,13 +1,12 @@
 package cn.abc.def.controller;
 
-import java.io.IOException;
-
+import cn.abc.def.domain.ResponseResult;
+import cn.abc.def.util.HttpUtil;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.abc.def.domain.ResponseResult;
-import cn.abc.def.util.HttpUtil;
+import java.io.IOException;
 
 /**
  * 一些第三方接口的调用
@@ -26,7 +25,7 @@ public class ThridPartyController {
 			return new ResponseResult(-1, "缺少电话号码参数");
 		}
 		try {
-			String result = HttpUtil.doGet("http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=" + phone, null);
+			String result = HttpUtil.get("http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=" + phone);
 			System.out.println(result);
 			
 			//判断是否为移动号码
