@@ -1,11 +1,16 @@
 package cn.abc.def.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class User {
 
 	private Integer id;
 	private String username;
 	private String password;
 	private String phone;
+
+	public interface UserInterface {}
+	public interface AdminInterface extends UserInterface {}
 	
 	public User() {
 		
@@ -18,6 +23,7 @@ public class User {
 		this.phone = phone;
 	}
 
+	@JsonView(AdminInterface.class)
 	public Integer getId() {
 		return id;
 	}
@@ -26,6 +32,7 @@ public class User {
 		this.id = id;
 	}
 
+	@JsonView(UserInterface.class)
 	public String getUsername() {
 		return username;
 	}
@@ -34,6 +41,7 @@ public class User {
 		this.username = username;
 	}
 
+	@JsonView(AdminInterface.class)
 	public String getPassword() {
 		return password;
 	}
@@ -42,6 +50,7 @@ public class User {
 		this.password = password;
 	}
 
+	@JsonView(UserInterface.class)
 	public String getPhone() {
 		return phone;
 	}
