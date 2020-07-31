@@ -1,28 +1,5 @@
 package cn.abc.def.controller;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.alipay.api.AlipayClient;
-import com.alipay.api.DefaultAlipayClient;
-import com.alipay.api.domain.AlipayTradeAppPayModel;
-import com.alipay.api.internal.util.AlipaySignature;
-import com.alipay.api.request.AlipayTradeAppPayRequest;
-import com.alipay.api.response.AlipayTradeAppPayResponse;
-
 import cn.abc.def.domain.ResponseResult;
 import cn.abc.def.entity.Order;
 import cn.abc.def.entity.WXPayNotifyUrlEntity;
@@ -31,11 +8,31 @@ import cn.abc.def.entity.WXPrePayResultEntity;
 import cn.abc.def.service.IOrderService;
 import cn.abc.def.util.AlipayCore;
 import cn.abc.def.util.DateUtil;
-import cn.abc.def.util.HttpsPostUtil;
+import cn.abc.def.util.HttpUtil;
 import cn.abc.def.util.OrderUtil;
 import cn.abc.def.util.PayUtil;
 import cn.abc.def.util.StringUtils;
 import cn.abc.def.util.XmlUtil;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.AlipayTradeAppPayModel;
+import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.request.AlipayTradeAppPayRequest;
+import com.alipay.api.response.AlipayTradeAppPayResponse;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 三方支付对接demo
@@ -62,8 +59,8 @@ public class ThreePartyPaymentController {
      * APP支付-微信预支付
      * @param commodityId 商品id
      */
-    @RequestMapping("/createtransforWeixin")
-    public ResponseResult createtransforWeixin(String commodityId, HttpServletRequest request) {
+    @RequestMapping("/createTransForWeixin")
+    public ResponseResult createTransForWeixin(String commodityId, HttpServletRequest request) {
         try {
             //从数据库查询商品价格
             BigDecimal amount = /*commodityService.getById(commodityId).getAmount()*/new BigDecimal(0.01);  //TODO 商品价格
@@ -102,30 +99,23 @@ public class ThreePartyPaymentController {
             logger.debug(payXml);
 
             // 发送到微信
-            String postResult = HttpsPostUtil.post("https://api.mch.weixin.qq.com/pay/unifiedorder", payXml, "utf-8");
+//            String postResult = HttpsPostUtil.post("https://api.mch.weixin.qq.com/pay/unifiedorder", payXml, "utf-8");
+            String postResult = HttpUtil.post("https://api.mch.weixin.qq.com/pay/unifiedorder", payXml);
 
-            ResponseResult rr = new ResponseResult();
             if (StringUtils.isNullOrEmpty(postResult)) {
-                rr.setResult(-1);
-                rr.setMessage("请求预支付服务器的返回结果为空！");
-                return rr;
+                return new ResponseResult(-1, "请求预支付服务器的返回结果为空！");
             }
             WXPrePayResultEntity wxPrePayResultEntity = XmlUtil.toBean(postResult, WXPrePayResultEntity.class);
             if (null == wxPrePayResultEntity) {
-                rr.setResult(-1);
-                rr.setMessage("解析请求预支付服务器的返回结果出现异常！");
-                return rr;
+                return new ResponseResult(-1, "解析请求预支付服务器的返回结果出现异常！");
             }
             // 检查预支付结果
             if ("FAIL".equals(wxPrePayResultEntity.getReturn_code())) {
-                rr.setResult(-1);
-                rr.setMessage("预支付返回结果错误，原因：" + wxPrePayResultEntity.getReturn_msg());
-                return rr;
+                return new ResponseResult(-1, "预支付返回结果错误，原因：" + wxPrePayResultEntity.getReturn_msg());
             }
             if ("FAIL".equals(wxPrePayResultEntity.getResult_code())) {
-                rr.setResult(-1);
-                rr.setMessage("预支付返回结果错误，原因：" + wxPrePayResultEntity.getErr_code() + ", " + wxPrePayResultEntity.getErr_code_des());
-                return rr;
+                return new ResponseResult(-1, "预支付返回结果错误，原因："
+                        + wxPrePayResultEntity.getErr_code() + ", " + wxPrePayResultEntity.getErr_code_des());
             }
 
             // 生成手机发起支付的sign
@@ -157,6 +147,8 @@ public class ThreePartyPaymentController {
             map.put("package", "Sign=WXPay");
             map.put("noncestr", noncestr);
             map.put("sign", appsign);
+
+            ResponseResult rr = new ResponseResult();
             rr.setData(map);
             rr.setMessage("获取微信预支付交易号成功");
             return rr;
@@ -310,7 +302,7 @@ public class ThreePartyPaymentController {
         Map<String,String[]> requestParams = request.getParameterMap();
         for (Object o : requestParams.keySet()) {
             String name = (String) o;
-            String[] values = (String[]) requestParams.get(name);
+            String[] values = requestParams.get(name);
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < values.length; i++) {
             	//乱码解决，这段代码在出现乱码时使用。
