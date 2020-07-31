@@ -8,6 +8,8 @@
 <body>
 	<button id="btn">点击</button>
 	<button id="btn2">点击</button>
+	<br>
+	<button id="btn3">点击</button>
 </body>
 <script>
 
@@ -32,9 +34,18 @@
         });
     });
 
-
     function cb999(res){
         alert(res.message);
     }
+
+    $('#btn3').click(function(){
+        $.ajax({
+            url: "http://localhost:8081/cross/crossDemo?param=qqqkkk",
+            type: "GET",
+            success: function(res) {
+                alert(res.message);
+            }
+        });
+    });
 </script>
 </html>
