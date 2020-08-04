@@ -388,7 +388,7 @@ public class ThreePartyPaymentController {
             String realPath = session.getServletContext().getRealPath("/upload") + filePath;
             String accessPath = serverUrl + "/upload" + filePath;
 
-            QRCodeUtil.generateQRCodeImage(qrcodeUrl, 240, 240, realPath);
+            QRCodeUtil.generateQRCodeImageToPath(qrcodeUrl, 240, 240, realPath);
 
             ResponseResult rr = new ResponseResult();
             rr.setData(accessPath);
@@ -438,5 +438,15 @@ public class ThreePartyPaymentController {
         rr.setData(null);  //TODO 预支付第三方返回数据放这里
         rr.setExtraData(payType);
         return rr;
+    }
+
+    @RequestMapping(value = "/getQRCodeTest", produces = "image/png")
+    public byte[] getQRCodeTest() {
+        try {
+            return QRCodeUtil.getQRCodeImageBytes("Hello World!", 320, 320);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
