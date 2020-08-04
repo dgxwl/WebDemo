@@ -11,6 +11,7 @@ import cn.abc.def.util.DateUtil;
 import cn.abc.def.util.HttpUtil;
 import cn.abc.def.util.OrderUtil;
 import cn.abc.def.util.PayUtil;
+import cn.abc.def.util.QRCodeUtil;
 import cn.abc.def.util.StringUtils;
 import cn.abc.def.util.XmlUtil;
 import com.alipay.api.AlipayClient;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,7 +46,10 @@ public class ThreePartyPaymentController {
 	
 	@Resource
 	private IOrderService orderService;
-	
+
+    @Value("${server.url}")
+    private String serverUrl;
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Value("${weixin.appid}")
@@ -238,7 +243,7 @@ public class ThreePartyPaymentController {
      * APP支付-支付宝预支付
      * @param commodityId 商品id
      */
-    @RequestMapping("/createTransforAlipay")
+    @RequestMapping("/createTransForAlipay")
     public ResponseResult createTransforAlipay(String commodityId) {
     	//从数据库查询商品价格
         BigDecimal amount = /*commodityService.getById(commodityId).getAmount()*/new BigDecimal(0.01);  //TODO 商品价格
@@ -352,6 +357,86 @@ public class ThreePartyPaymentController {
             return "failure";
         }
     }
-    
-    
+
+    /*
+     * 以下是二码合一支付接口
+     * 流程:
+     * 1.用户在商品页面, 点击付款, 前端调/multiplePaymentsQRCode获取到一张二维码, 显示出来;
+     * 2.用户用微信或支付宝扫码, 进入一个页面, 这个页面可以获取到具体是哪个APP扫的;
+     * 3.前端调二合一预支付接口/createTransForMultiple, 获取到预支付的返回数据后, 唤起对应的支付程序;
+     * 4.用户完成付款, 后端回调, 前端查询支付状态, 流程结束.
+     */
+
+    /**
+     * 流程1
+     * 生成二维码图片,
+     * 二维码的内容是微信/支付宝扫码后要打开的url, 并且带上了billId参数
+     */
+    @RequestMapping("/multiplePaymentsQRCode")
+    public ResponseResult multiplePaymentsQRCode(String billId, HttpSession session) {
+        try {
+            /*Bill bill = billService.getById(billId);
+            if (bill == null) {
+                return new ResponseResult(-1, "找不到该账单");
+            }
+            if (bill.getStatus() == Bill.STATUS_FINISHED) {
+                return new ResponseResult(-1, "该账单已支付");
+            }*/
+
+            String qrcodeUrl = serverUrl + "/multiplePaymentPage?orderId=" + billId;
+            String filePath = "/" + billId + System.currentTimeMillis() + ".png";
+            String realPath = session.getServletContext().getRealPath("/upload") + filePath;
+            String accessPath = serverUrl + "/upload" + filePath;
+
+            QRCodeUtil.generateQRCodeImage(qrcodeUrl, 240, 240, realPath);
+
+            ResponseResult rr = new ResponseResult();
+            rr.setData(accessPath);
+            return rr;
+        } catch (Exception e) {
+            logger.error("", e);
+            return new ResponseResult(-1, "获取二维码失败");
+        }
+    }
+
+    @RequestMapping("/createTransForMultiple")
+    public ResponseResult createTransForMultiple(Integer payType, String billId, HttpServletRequest request) {
+        /*Bill bill = billService.getById(billId);
+        if (bill == null) {
+            return new ResponseResult(-1, "找不到该账单");
+        }
+        if (bill.getStatus() == Bill.STATUS_FINISHED) {
+            return new ResponseResult(-1, "该账单已支付");
+        }*/
+
+        if (payType == null) {
+            payType = -1;
+            //根据请求头判断扫码APP是微信还是支付宝
+            String s = request.getHeader("User-Agent").toLowerCase();
+            if (StringUtils.isNullOrEmpty(s)) {
+                return new ResponseResult(-1, "获取不到当前支付APP");
+            }
+
+            if (s.contains("micromessenger")) {
+                payType = 0;
+            } else if (s.contains("alipayclient")) {
+                payType = 1;
+            }
+        }
+
+        if (payType == 0) {
+            //发起微信预支付
+            //TODO
+        } else if (payType == 1) {
+            //发起支付宝预支付
+            //TODO
+        } else {
+            return new ResponseResult(-1, "未知支付方式");
+        }
+
+        ResponseResult rr = new ResponseResult();
+        rr.setData(null);  //TODO 预支付第三方返回数据放这里
+        rr.setExtraData(payType);
+        return rr;
+    }
 }

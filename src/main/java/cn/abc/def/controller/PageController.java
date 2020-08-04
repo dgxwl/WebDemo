@@ -10,4 +10,14 @@ public class PageController {
     public String crossPage() {
         return "cross";
     }
+
+    @RequestMapping("/scanQRcodePage")
+    public String scanQRcodePage() {
+        return "scanQRcode";
+    }
+
+    @RequestMapping("/multiplePaymentPage")
+    public String multiplePaymentPage() {
+        return "multiplePayment";
+    }
 }

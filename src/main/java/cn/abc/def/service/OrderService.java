@@ -1,14 +1,13 @@
 package cn.abc.def.service;
 
-import javax.annotation.Resource;
-
+import cn.abc.def.entity.Order;
+import cn.abc.def.mapper.OrderMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.abc.def.entity.Order;
-import cn.abc.def.mapper.OrderMapper;
+import javax.annotation.Resource;
 
 @Service
 public class OrderService implements IOrderService {
@@ -26,6 +25,11 @@ public class OrderService implements IOrderService {
 	@Override
 	public Integer update(Order order) {
 		return orderMapper.update(order);
+	}
+
+	@Override
+	public Order getById(String orderId) {
+		return orderMapper.getById(orderId);
 	}
 	
 	@Override

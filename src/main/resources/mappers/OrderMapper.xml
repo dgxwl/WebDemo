@@ -38,6 +38,12 @@
 			#{created_by}
 		)
 	</insert>
+
+	<select id="getById" resultType="cn.abc.def.entity.Order">
+		SELECT *
+		FROM t_order
+		WHERE order_id = #{orderId}
+	</select>
 	
 	<select id="getByOrderNo" resultType="cn.abc.def.entity.Order">
 		SELECT *

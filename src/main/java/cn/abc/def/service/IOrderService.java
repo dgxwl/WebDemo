@@ -7,6 +7,8 @@ public interface IOrderService {
 	Integer addOrder(Order order);
 	
 	Integer update(Order order);
+
+	Order getById(String orderId);
 	
 	Order getByOrderNo(String orderNo);
 	
