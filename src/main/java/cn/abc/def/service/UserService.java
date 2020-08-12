@@ -1,12 +1,10 @@
 package cn.abc.def.service;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
 import cn.abc.def.entity.User;
 import cn.abc.def.mapper.UserMapper;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class UserService implements IUserService {
@@ -26,5 +24,10 @@ public class UserService implements IUserService {
 	@Override
 	public List<User> getAllPhone() {
 		return userMapper.getAllPhone();
+	}
+
+	@Override
+	public String toString() {
+		return "I'm impl no.1";
 	}
 }
