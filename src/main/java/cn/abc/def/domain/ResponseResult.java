@@ -14,6 +14,10 @@ public class ResponseResult {
 		this.message = message;
 	}
 
+	public ResponseResult(Object data) {
+		this.data = data;
+	}
+
 	public ResponseResult(int result, String message) {
 		this.result = result;
 		this.message = message;
