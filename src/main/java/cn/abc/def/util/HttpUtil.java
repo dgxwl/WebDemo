@@ -52,8 +52,10 @@
 
 package cn.abc.def.util;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -107,6 +109,19 @@ public class HttpUtil {
      */
     static public String post(String url, String body) throws IOException {
         return post(url, body, null);
+    }
+
+    /**
+     * Post a json string
+     * @param url         Url as string
+     * @param jsonStr     a json string
+     * @return response   Response as string
+     * @throws IOException
+     */
+    static public String postJson(String url, String jsonStr) throws IOException {
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json;charset=UTF-8");
+        return post(url, jsonStr, headers);
     }
 
     /**
@@ -303,8 +318,8 @@ public class HttpUtil {
         // connection
         URL u = new URL(url);
         HttpURLConnection conn = (HttpURLConnection)u.openConnection();
-        conn.setConnectTimeout(10000);
-        conn.setReadTimeout(10000);
+        conn.setConnectTimeout(120000);
+        conn.setReadTimeout(120000);
 
         // method
         if (method != null) {
@@ -329,7 +344,7 @@ public class HttpUtil {
 
         // response
         InputStream is = conn.getInputStream();
-        String response = streamToString(is);
+        String response = streamToString(conn);
         is.close();
 
         // handle redirects
@@ -342,17 +357,22 @@ public class HttpUtil {
     }
 
     /**
-     * Read an input stream into a string
-     * @param in
+     * Read an input stream from conn into a string
+     * @param conn
      * @return
      * @throws IOException
      */
-    static public String streamToString(InputStream in) throws IOException {
-        StringBuffer out = new StringBuffer();
-        byte[] b = new byte[4096];
-        for (int n; (n = in.read(b)) != -1;) {
-            out.append(new String(b, 0, n));
+    static public String streamToString(HttpURLConnection conn) throws IOException {
+        InputStream in = conn.getInputStream();
+        InputStreamReader isr = new InputStreamReader(in, "UTF-8");
+        BufferedReader br = new BufferedReader(isr);
+
+        String data;
+        StringBuilder out = new StringBuilder();
+        while ((data = br.readLine()) != null) {
+            out.append(data);
         }
+        br.close();
         return out.toString();
     }
 }
