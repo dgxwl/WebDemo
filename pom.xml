@@ -133,10 +133,28 @@
 		    <version>4.9.71.ALL</version>
 		</dependency>
 
+		<!-- 二维码 -->
 		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>javase</artifactId>
 			<version>3.3.0</version>
+		</dependency>
+
+		<!-- quartz -->
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org</groupId>
+			<artifactId>quartz</artifactId>
+			<version>1.6</version>
 		</dependency>
 	</dependencies>
 
