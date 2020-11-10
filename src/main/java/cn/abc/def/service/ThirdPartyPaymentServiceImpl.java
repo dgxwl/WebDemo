@@ -296,7 +296,7 @@ public class ThirdPartyPaymentServiceImpl implements IThirdPartyPaymentService {
         order.setOrderNo(orderNo);
         order.setCommodityId(commodityId);
         order.setAmount(amount);
-        order.setPayType(Order.PAY_TYPE_WEIXIN);
+        order.setPayType(Order.PAY_TYPE_ALIPAY);
         order.setStatus(Order.STATUS_PENDING);
         order.setCreatedDate(new Date());
         order.setCreatedBy(/*TODO getCurrentUserId()*/"记录付款人");
