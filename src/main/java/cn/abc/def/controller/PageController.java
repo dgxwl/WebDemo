@@ -20,4 +20,9 @@ public class PageController {
     public String multiplePaymentPage() {
         return "multiplePayment";
     }
+    
+    @RequestMapping("/alipayInWeChatPage")
+    public String alipayInWeChatPage() {
+        return "alipayinwechat";
+    }
 }
