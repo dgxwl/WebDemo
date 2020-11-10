@@ -7,6 +7,8 @@ public class Order {
 	
 	/**微信支付*/
 	public static final int PAY_TYPE_WEIXIN = 0;
+	/**支付宝支付*/
+	public static final int PAY_TYPE_ALIPAY = 1;
 	
 	/**付款状态_预支付*/
 	public static final int STATUS_PENDING = 0;
