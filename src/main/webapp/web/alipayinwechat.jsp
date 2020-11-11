@@ -13,7 +13,7 @@
 <script>
     function pay() {
         $.ajax({
-            url: '${pageContext.request.contextPath}/createPCTransForAlipay',
+            url: '${pageContext.request.contextPath}/createH5TransForAlipay',
             type: 'POST',
             success: function (data) {
                 console.log(data)
