@@ -46,4 +46,13 @@ public class RedisController {
 			return "服务器异常";
 		}
 	}
+	
+	@RequestMapping("/test_try_lock")
+	public String testLock(Integer id, Integer tryTimes) {
+		try {
+			return testService.testLock(id, tryTimes);
+		} catch (Exception e) {
+			return "服务器异常";
+		}
+	}
 }
