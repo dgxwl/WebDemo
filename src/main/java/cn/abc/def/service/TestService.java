@@ -46,4 +46,26 @@ public class TestService implements ITestService {
 		
 		return "提交成功";
 	}
+	
+	@Override
+	public String testLock(Integer id, Integer tryTimes) {
+		//加锁防止重复提交
+		String lockKey = "testtrylock_" + id;
+		if (!redisDistributedLock.tryLock(lockKey, tryTimes == null ? 2 : tryTimes)) {
+			return "正在保存数据,请勿重复提交";
+		}
+		String requestId = redisDistributedLock.get(lockKey);
+
+		try {
+			if (tryTimes == null) {
+				Thread.sleep(20000);  //模拟耗时的操作
+			}
+		} catch (Exception e) {
+		} finally {
+			//释放锁
+			redisDistributedLock.releaseLock(lockKey, requestId);
+		}
+
+		return "提交成功";
+	}
 }
