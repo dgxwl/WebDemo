@@ -59,6 +59,31 @@ public class RedisDistributedLock{
         return false;
     }
  
+     /**
+      * 尝试加锁, 试两次
+      */
+    public boolean tryLock(String key) {
+        return tryLock(key, 2);
+    }
+
+    public boolean tryLock(String key, int tryTimes) {
+        return tryLock(key, tryTimes, DEFAULTLOCKTIME);
+    }
+
+    public boolean tryLock(String key, int tryTimes, long lockSeconds) {
+        int times = 1;
+        boolean result = this.setLock(key, lockSeconds);
+        while (!result && times < tryTimes) {
+            try {
+                Thread.sleep(500);
+                times++;
+            } catch (Exception e) {}
+
+            result = this.setLock(key, lockSeconds);
+        }
+        return result;
+    }
+ 
     public String get(String key) {
         try {
             RedisCallback<String> callback = (connection) -> {
