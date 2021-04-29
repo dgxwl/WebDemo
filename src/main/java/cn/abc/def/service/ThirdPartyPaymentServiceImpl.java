@@ -304,7 +304,10 @@ public class ThirdPartyPaymentServiceImpl implements IThirdPartyPaymentService {
 
         //把支付宝返回的预支付信息返回给前端(APP/PC网页/手机网页)
         ResponseResult rr = new ResponseResult();
-        rr.setData(body);
+        Map<String, String> data = new HashMap<>(2);
+        data.put("body", body);
+        data.put("orderNo", orderNo);
+        rr.setData(data);
 
         return rr;
     }
